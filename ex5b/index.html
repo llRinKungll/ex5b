@@ -29,7 +29,7 @@
 		  <br><button type="button" class="btn btn-primary">Convert</button>
 		</form>
 	</div>
-	<div id="result" style="margin-top:10px;margin-left:10px; font-size: 20px; color:red;">
+	<div id="result" style="margin-top:10px;margin-left:10px; font-size: 20px; color:red;">	
 	</div>
 	
 	<script>
@@ -37,13 +37,14 @@
 			if(isNaN(t)){
 					msg = "Please verify whether the temperature value is correct!!!";
 					alert(msg);
-					return;
+					return true;
 			   }
 			   if(!(t >= -100 && t <= 100)){
 					msg = "Tempurature entered (in Celsius) must be between 0 and 100 C'";
 					alert(msg);
-					return;
+					return true;
 			   }
+			return false
 		}
 
 		function temCon(t,u){
@@ -55,25 +56,25 @@
 					u1 = "Fahrenheit";
 			}else if(u == "K"){
 					t1 =  t + 273.15;
-					u1 = "Réaumur";
+					u1 = "Kelvin";
 			}else if(u == "R"){
 					t1 = t * (4/5);
-					u1 = "Kelvin";
+					u1 = "Réaumur";
 			}
 			return{t1,u1}
 		}
 
 	    $(document).ready(function(){
 			$("button").click(function(){
-			   var t = $('#temp').val();//celsius
+			   var t = parseFloat($('#temp').val());//celsius
 			   var u = $('#unit').val();
 
 			   var chk = validate(t);
-			   if(chk != null) return chk;
+			   if(chk) return chk;
 			   
 			   var tc = temCon(t,u)
 			   
-			   alert("Temperature is "+tc.t1+" in "+tc.u1);
+			   $("#result").html("Temperature is <strong>" + tc.t1 + "</strong> in "+tc.u1);
 			});
 		});
 	</script>
